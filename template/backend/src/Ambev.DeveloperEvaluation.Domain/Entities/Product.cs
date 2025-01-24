@@ -54,7 +54,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// Value should be between 0 and 5.
         /// </summary>
         /// 
-        public ProductRating Rating { get; set; }
+        public ProductRating Rating { get; set; } 
     }
 
 }

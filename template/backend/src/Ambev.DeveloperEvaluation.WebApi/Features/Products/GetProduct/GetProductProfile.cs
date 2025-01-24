@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct
            .ConstructUsing(id => new GetProductCommand(id));
 
             CreateMap<GetProductResult, GetProductResponse>()
-          .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => new RatingResponse
+          .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => new GetProductRating
           {
               Rate = src.Rate,
               Count = src.RatingCount

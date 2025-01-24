@@ -31,7 +31,10 @@ public class CreateProductProfile : Profile
                         Count = src.RatingCount.Value
                     }
                     : null));
+        CreateMap<CreateProductRequest, CreateProductCommand>()
+            .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Rating.Rate))
+            .ForMember(dest => dest.RatingCount, opt => opt.MapFrom(src => src.Rating.Count));
 
-        CreateMap<CreateProductRequest, CreateProductCommand>();
+
     }
 }

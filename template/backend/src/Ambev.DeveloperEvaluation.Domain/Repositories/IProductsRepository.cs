@@ -36,5 +36,18 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// </summary>
         /// <returns>Total items</returns>
         Task<Product> GetById(int id);
+
+
+        /// <summary>
+        /// Update product
+        /// </summary>
+        /// <returns>Total items</returns>
+        Task<Product> UpdateProduct(int id, Product product);
+
+        /// <summary>
+        /// Delete product
+        /// </summary>
+        /// <returns>Message delete</returns>
+        Task<string> DeleteProduct(int id);
     }
 }

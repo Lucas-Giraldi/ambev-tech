@@ -1,11 +1,10 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct
 {
-    public sealed class GetProductResponse
+    public class UpdateProductRequest
     {
-        /// <summary>
-        /// The unique identifier of the product.
-        /// </summary>
-        public int Id { get; set; }
 
         /// <summary>
         /// The title of the product.
@@ -35,8 +34,6 @@
         /// <summary>
         /// The rating details of the product.
         /// </summary>
-        public GetProductRating? Rating { get; set; }
+        public UpdateProductRating? Rating { get; set; }
     }
-
 }
-

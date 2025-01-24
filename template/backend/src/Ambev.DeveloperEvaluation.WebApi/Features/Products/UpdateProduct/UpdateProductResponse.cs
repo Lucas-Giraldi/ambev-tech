@@ -1,6 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct
 {
-    public sealed class GetProductResponse
+    public class UpdateProductResponse
     {
         /// <summary>
         /// The unique identifier of the product.
@@ -18,25 +18,24 @@
         public decimal Price { get; set; }
 
         /// <summary>
-        /// The description of the product.
+        /// A detailed description of the product.
         /// </summary>
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// The category of the product.
+        /// The category or classification of the product.
         /// </summary>
         public string Category { get; set; } = string.Empty;
 
         /// <summary>
-        /// The image URL of the product.
+        /// The URL or path of the product's image.
         /// </summary>
         public string Image { get; set; } = string.Empty;
 
         /// <summary>
-        /// The rating details of the product.
+        /// The average rating of the product.
         /// </summary>
-        public GetProductRating? Rating { get; set; }
+        /// 
+        public UpdateProductRating Rating { get; set; }
     }
-
 }
-
