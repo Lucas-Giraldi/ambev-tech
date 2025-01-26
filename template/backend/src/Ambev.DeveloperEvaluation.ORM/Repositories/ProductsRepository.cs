@@ -63,6 +63,19 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         }
 
+        public async Task<List<Product>> GetProductByCategory(string category)
+        {
+            return await _context.Products
+                .Include(p => p.Rating)
+                .Where(p => p.Category == category)
+                .ToListAsync();
+        }
+
+        public async Task<List<string>> GetProductCategories()
+        {
+            return await _context.Products.Select(p => p.Category).Distinct().ToListAsync();
+        }
+
         public async Task<int> GetTotalItems()
         {
             return await _context.Products.CountAsync();

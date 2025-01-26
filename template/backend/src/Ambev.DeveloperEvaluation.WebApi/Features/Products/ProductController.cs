@@ -1,13 +1,17 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
+using Ambev.DeveloperEvaluation.Application.Products.GetProductByCategory;
+using Ambev.DeveloperEvaluation.Application.Products.GetProductCategory;
 using Ambev.DeveloperEvaluation.Application.Products.GetProducts;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProductCategory;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProductsByCategory;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using FluentValidation;
@@ -109,7 +113,7 @@ public class ProductController : BaseController
         var validatorResult = await validator.ValidateAsync(id, cancellationToken);
 
         if (!validatorResult.IsValid)
-            return BadRequest(validatorResult.Errors); 
+            return BadRequest(validatorResult.Errors);
 
         var command = _mapper.Map<GetProductCommand>(id);
         var response = await _mediator.Send(command, cancellationToken);
@@ -183,7 +187,57 @@ public class ProductController : BaseController
 
         var response = await _mediator.Send(command, cancellationToken);
         return Ok(response.Message);
-
     }
 
+    /// <summary>
+    /// GET category Product
+    /// </summary>
+    /// <returns>Delete product using Id</returns>
+    [HttpGet("/product/categories")]
+    [ProducesResponseType(typeof(ApiResponseWithData<GetProductCategoryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetCategoryProduct(CancellationToken cancellationToken)
+    {
+        var command = new GetProductCategoryCommand();
+        var response = await _mediator.Send(command, cancellationToken);
+
+        if (!response.Categories.Any())
+        {
+            Response.Headers.Add("X-Message", "No content Category");
+            return NoContent();
+        }
+
+        return Ok(_mapper.Map<GetProductCategoryResponse>(response));
+    }
+    /// <summary>
+    /// GET category Product
+    /// </summary>
+    /// <param name="id">Id of product</param>
+    /// <returns>Delete product using Id</returns>
+    [HttpGet("/product/category/{category}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<GetProductCategoryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetProductByCategory([FromRoute] string category, CancellationToken cancellationToken)
+    {
+        var validator = new GetProductsByCategoryRequestValidator();
+
+        var validatorResult = await validator.ValidateAsync(category);
+
+        if (!validatorResult.IsValid)
+            return BadRequest(validatorResult.Errors);
+
+        var command = _mapper.Map<GetProductByCategoryCommand>(category);
+        var response = await _mediator.Send(command, cancellationToken);
+
+        if (!response.Any())
+        {
+            Response.Headers.Add("X-Message", "No content Category");
+            return NoContent();
+        }
+
+        List<GetProductByCategoryResponse>  responseMapper = _mapper.Map<List<GetProductByCategoryResult>,List<GetProductByCategoryResponse>>(response);
+
+        return Ok(responseMapper);
+    }
 }

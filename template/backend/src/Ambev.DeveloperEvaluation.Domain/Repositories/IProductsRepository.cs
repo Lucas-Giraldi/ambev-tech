@@ -49,5 +49,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// </summary>
         /// <returns>Message delete</returns>
         Task<string> DeleteProduct(int id);
+
+        Task<List<string>> GetProductCategories();
+
+        Task<List<Product>> GetProductByCategory(string category);
     }
 }
