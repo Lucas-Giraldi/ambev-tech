@@ -16,6 +16,11 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProducts
             TotalPages = totalPages;
         }
 
+        public GetProductResult()
+        {
+            
+        }
+
         /// <summary>
         /// List of products
         /// </summary>
