@@ -62,7 +62,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<GetProductsCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetProductResponse>
+        return OkWithData(new ApiResponseWithData<GetProductResponse>
         {
             Success = true,
             Message = "Get products successfully",
@@ -91,7 +91,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<CreateProductCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<CreateProductResponse>
+        return OkWithData(new ApiResponseWithData<CreateProductResponse>
         {
             Success = true,
             Message = "Get products successfully",
@@ -118,7 +118,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<GetProductCommand>(id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetProductResponse>
+        return OkWithData(new ApiResponseWithData<GetProductResponse>
         {
             Success = true,
             Message = "Get products successfully",
@@ -158,7 +158,7 @@ public class ProductController : BaseController
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<UpdateProductResponse>
+        return OkWithData(new ApiResponseWithData<UpdateProductResponse>
         {
             Success = true,
             Message = "Get products successfully",
@@ -186,7 +186,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<DeleteProductCommand>(id);
 
         var response = await _mediator.Send(command, cancellationToken);
-        return Ok(response.Message);
+        return OkWithData(response.Message);
     }
 
     /// <summary>
@@ -207,7 +207,7 @@ public class ProductController : BaseController
             return NoContent();
         }
 
-        return Ok(_mapper.Map<GetProductCategoryResponse>(response));
+        return OkWithData(_mapper.Map<GetProductCategoryResponse>(response));
     }
     /// <summary>
     /// GET category Product
@@ -238,6 +238,6 @@ public class ProductController : BaseController
 
         List<GetProductByCategoryResponse>  responseMapper = _mapper.Map<List<GetProductByCategoryResult>,List<GetProductByCategoryResponse>>(response);
 
-        return Ok(responseMapper);
+        return OkWithData(responseMapper);
     }
 }
