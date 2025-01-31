@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+﻿using Ambev.DeveloperEvaluation.Application.Users.DTOs;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using MediatR;
 
@@ -20,35 +21,40 @@ namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 /// </remarks>
 public class CreateUserCommand : IRequest<CreateUserResult>
 {
+
     /// <summary>
-    /// Gets or sets the username of the user to be created.
+    /// Gets or sets the username. Must be unique and contain only valid characters.
     /// </summary>
     public string Username { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the password for the user.
+    /// Gets or sets the password. Must meet security requirements.
     /// </summary>
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the phone number for the user.
+    /// Gets or sets the phone number in format (XX) XXXXX-XXXX.
     /// </summary>
     public string Phone { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the email address for the user.
+    /// Gets or sets the email address. Must be a valid email format.
     /// </summary>
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the status of the user.
+    /// Gets or sets the initial status of the user account.
     /// </summary>
     public UserStatus Status { get; set; }
 
     /// <summary>
-    /// Gets or sets the role of the user.
+    /// Gets or sets the role assigned to the user.
     /// </summary>
     public UserRole Role { get; set; }
+
+    public AddressUserDto Address { get; set; }
+
+    public NameUsersDto Name { get; set; }
 
 
     public ValidationResultDetail Validate()

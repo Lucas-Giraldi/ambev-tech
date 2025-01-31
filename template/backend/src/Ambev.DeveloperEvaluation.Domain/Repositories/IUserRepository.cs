@@ -23,6 +23,8 @@ public interface IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
+    Task<List<Entities.User>> GetAll(int page, int size, string order);
+
     /// <summary>
     /// Retrieves a user by their email address
     /// </summary>

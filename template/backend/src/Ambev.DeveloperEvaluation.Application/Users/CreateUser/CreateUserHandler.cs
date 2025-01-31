@@ -15,6 +15,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IAddressReporitory _addressReporitory;
 
     /// <summary>
     /// Initializes a new instance of CreateUserHandler
@@ -22,11 +23,12 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     /// <param name="userRepository">The user repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateUserCommand</param>
-    public CreateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
+    public CreateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IAddressReporitory addressReporitory)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
+        _addressReporitory = addressReporitory;
     }
 
     /// <summary>
@@ -47,11 +49,19 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
         if (existingUser != null)
             throw new InvalidOperationException($"User with email {command.Email} already exists");
 
+
+
         var user = _mapper.Map<User>(command);
         user.Password = _passwordHasher.HashPassword(command.Password);
 
         var createdUser = await _userRepository.CreateAsync(user, cancellationToken);
+
+        await _addressReporitory.AddOrUpdateAddresses(user.Id, _mapper.Map<UserAddress>(command.Address), cancellationToken);
+        
         var result = _mapper.Map<CreateUserResult>(createdUser);
+        result.Address = command.Address;
+        result.Name = command.Username;
+
         return result;
     }
 }

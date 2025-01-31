@@ -78,6 +78,12 @@ public class User : BaseEntity, IUser
     /// <returns>The user's role as a string.</returns>
     string IUser.Role => Role.ToString();
 
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public List<UserAddress> UserAddress { get; set; }
+
     /// <summary>
     /// Initializes a new instance of the User class.
     /// </summary>

@@ -72,4 +72,17 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public async Task<List<User>> GetAll(int page, int size, string order)
+    {
+        var query = _context.Users.AsQueryable();
+
+        if (order.Equals("username asc", StringComparison.OrdinalIgnoreCase))
+            query = query.OrderBy(p => p.Username);
+        if (order.Equals("email desc", StringComparison.OrdinalIgnoreCase))
+            query = query.OrderByDescending(p => p.Email);
+
+        return await query.ToListAsync();
+
+    }
 }

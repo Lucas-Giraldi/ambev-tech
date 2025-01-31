@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.Users.DTOs;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
@@ -36,4 +37,6 @@ public class CreateUserResponse
     /// The current status of the user
     /// </summary>
     public UserStatus Status { get; set; }
+    public AddressUserDto Address { get; set; }
+    public NameUsersDto UserName { get; set; }
 }
