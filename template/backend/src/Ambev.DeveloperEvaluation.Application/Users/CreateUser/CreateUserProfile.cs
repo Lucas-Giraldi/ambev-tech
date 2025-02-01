@@ -21,7 +21,7 @@ public class CreateUserProfile : Profile
 
         CreateMap<User, CreateUserResult>()
            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Username))
-           .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.UserAddress.FirstOrDefault()))
+           .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.UserAddress))
            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => new NameUsersDto
            {
                FirstName = src.FirstName,

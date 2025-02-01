@@ -82,7 +82,7 @@ public class User : BaseEntity, IUser
 
     public string LastName { get; set; }
 
-    public List<UserAddress> UserAddress { get; set; }
+    public UserAddress UserAddress { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the User class.

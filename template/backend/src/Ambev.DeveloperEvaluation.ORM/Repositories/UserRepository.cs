@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +42,7 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.Users.Include(p => p.UserAddress).FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
     /// <summary>
@@ -85,4 +86,24 @@ public class UserRepository : IUserRepository
         return await query.ToListAsync();
 
     }
+
+    public async Task<User> UpdateUser(User newUser, User oldUser, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            _context.Entry(oldUser).State = EntityState.Modified;
+
+            _context.Entry(oldUser).CurrentValues.SetValues(newUser);
+
+            await _context.SaveChangesAsync();
+
+            return newUser;
+        }
+
+        catch(Exception ex)
+        {
+            return null;
+        }
+    }
+
 }
