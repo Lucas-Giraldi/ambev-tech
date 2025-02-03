@@ -16,20 +16,26 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             _context = context;
         }
-        public async Task AddOrUpdateAddresses(Guid userId, UserAddress addresses, CancellationToken cancellationToken)
+        public async Task AddOrUpdateAddresses(Guid userId, UserAddress newAddress, CancellationToken cancellationToken)
         {
             try
             {
-                var addressess = await _context.UsersAddress
+                var address = await _context.UsersAddress
                     .Where(p => p.User.Id == userId).FirstOrDefaultAsync();
 
-                if (addressess != null)
-                    _context.UsersAddress.Entry(addresses).State = EntityState.Modified;
+                if (address != null)
+                {
+                    newAddress.Id = address.Id;
+                    newAddress.UserId = userId;
+                    _context.Entry(address).CurrentValues.SetValues(newAddress);
+                    _context.Entry(address).State = EntityState.Modified;
+
+                }
 
                 else
                 {
-                    addresses.UserId = userId;
-                    _context.UsersAddress.Add(addresses);
+                    address.UserId = userId;
+                    _context.UsersAddress.Add(address);
                 }
                 await _context.SaveChangesAsync();
             }

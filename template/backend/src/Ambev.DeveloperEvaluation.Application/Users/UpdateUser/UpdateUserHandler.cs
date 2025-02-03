@@ -35,9 +35,12 @@ namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser
             if (existingUser == null)
                 throw new KeyNotFoundException("User not found");
 
-            existingUser.Password = _passwordHasher.HashPassword(request.Password);
             var newUser = _mapper.Map<User>(request);
+            newUser.Password = _passwordHasher.HashPassword(request.Password);
             var userResult = await _userRepository.UpdateUser(newUser, existingUser, cancellationToken);
+
+            if (userResult == null)
+                throw new Exception("User not updated");
 
             var address = _mapper.Map<UserAddress>(request.Address);
             await _addressReporitory.AddOrUpdateAddresses(userResult.Id, address, cancellationToken);

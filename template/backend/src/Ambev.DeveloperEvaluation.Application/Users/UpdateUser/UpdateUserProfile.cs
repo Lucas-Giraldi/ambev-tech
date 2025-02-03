@@ -16,12 +16,13 @@ namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser
         {
             CreateMap<UpdateUserCommand, User>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore())
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.UserAddress, opt => opt.MapFrom(src => src.Address))
                 .ForPath(dest => dest.FirstName, opt => opt.MapFrom(src => src.Name.FirstName))
                 .ForPath(dest => dest.LastName, opt => opt.MapFrom(src => src.Name.LastName));
 
             CreateMap<AddressUserDto, UserAddress>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.GeoLocation.Lat))
                 .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.GeoLocation.Long));
 
