@@ -47,7 +47,7 @@ public class ProductController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>list of products with order </returns>
     [HttpGet("/products")]
-    [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetProductResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetProducts([FromQuery] GetProductSRequest request, CancellationToken cancellationToken)
@@ -62,12 +62,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<GetProductsCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return OkWithData(new ApiResponseWithData<GetProductResponse>
-        {
-            Success = true,
-            Message = "Get products successfully",
-            Data = _mapper.Map<GetProductResponse>(response),
-        });
+        return Ok(_mapper.Map<GetProductsResponse>(response));
     }
 
     /// <summary>
@@ -94,7 +89,7 @@ public class ProductController : BaseController
         return OkWithData(new ApiResponseWithData<CreateProductResponse>
         {
             Success = true,
-            Message = "Get products successfully",
+            Message = "Create products successfully",
             Data = _mapper.Map<CreateProductResponse>(response),
         });
     }
@@ -118,10 +113,10 @@ public class ProductController : BaseController
         var command = _mapper.Map<GetProductCommand>(id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return OkWithData(new ApiResponseWithData<GetProductResponse>
+        return Ok(new ApiResponseWithData<GetProductResponse>
         {
             Success = true,
-            Message = "Get products successfully",
+            Message = "Get product successfully",
             Data = _mapper.Map<GetProductResponse>(response),
         });
     }
@@ -158,10 +153,10 @@ public class ProductController : BaseController
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        return OkWithData(new ApiResponseWithData<UpdateProductResponse>
+        return Ok(new ApiResponseWithData<UpdateProductResponse>
         {
             Success = true,
-            Message = "Get products successfully",
+            Message = "Update products successfully",
             Data = _mapper.Map<UpdateProductResponse>(response),
         });
     }
@@ -207,7 +202,12 @@ public class ProductController : BaseController
             return NoContent();
         }
 
-        return OkWithData(_mapper.Map<GetProductCategoryResponse>(response));
+        return Ok(new ApiResponseWithData<GetProductCategoryResponse>
+        {
+            Success = true,
+            Message = "get products categories successfully",
+            Data = _mapper.Map<GetProductCategoryResponse>(response),
+        });
     }
     /// <summary>
     /// GET category Product
@@ -236,8 +236,13 @@ public class ProductController : BaseController
             return NoContent();
         }
 
-        List<GetProductByCategoryResponse>  responseMapper = _mapper.Map<List<GetProductByCategoryResult>,List<GetProductByCategoryResponse>>(response);
+        List<GetProductByCategoryResponse> responseMapper = _mapper.Map<List<GetProductByCategoryResult>, List<GetProductByCategoryResponse>>(response);
 
-        return OkWithData(responseMapper);
+        return Ok(new ApiResponseWithData<List<GetProductByCategoryResponse>>
+        {
+            Success = true,
+            Message = "get product category successfully",
+            Data = responseMapper,
+        });
     }
 }
