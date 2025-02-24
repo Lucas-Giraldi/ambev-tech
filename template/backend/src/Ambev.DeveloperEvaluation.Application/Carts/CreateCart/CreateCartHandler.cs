@@ -22,8 +22,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 
         public async Task<CreateCartResult> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
-
-
             var cart = await _cartRepository.CreateCart(new Domain.Entities.Cart
             {
                 Date = request.Date,

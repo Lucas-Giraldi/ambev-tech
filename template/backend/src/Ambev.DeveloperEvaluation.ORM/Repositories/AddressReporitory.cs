@@ -21,22 +21,21 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             try
             {
                 var address = await _context.UsersAddress
-                    .Where(p => p.User.Id == userId).FirstOrDefaultAsync();
+                    .Where(p => p.User.Id == userId).FirstOrDefaultAsync() ?? new UserAddress();
 
-                if (address != null)
+                newAddress.UserId = userId;
+
+                if (address.UserId != Guid.Empty)
                 {
                     newAddress.Id = address.Id;
-                    newAddress.UserId = userId;
                     _context.Entry(address).CurrentValues.SetValues(newAddress);
                     _context.Entry(address).State = EntityState.Modified;
 
                 }
 
                 else
-                {
-                    address.UserId = userId;
-                    _context.UsersAddress.Add(address);
-                }
+                    _context.UsersAddress.Add(newAddress);
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

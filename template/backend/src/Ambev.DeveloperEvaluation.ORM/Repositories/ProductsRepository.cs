@@ -81,6 +81,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return await _context.Products.CountAsync();
         }
 
+        public async Task<List<Product>> GetValuesByIds(List<int> ids)
+        {
+            return await _context.Products.Where(p=> ids.Contains(p.Id))
+                .AsNoTracking()
+                .Select(p => new Product { Id = p.Id, Price = p.Price })
+                .ToListAsync();
+        }
+
         public async Task<Product> UpdateProduct(int id, Product product)
         {
             var existingProduct = await _context.Products
