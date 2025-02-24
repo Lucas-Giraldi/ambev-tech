@@ -18,24 +18,27 @@ public class SaleRepository : ISaleRepository
     {
         try
         {
+
+            sale.Items.ForEach(p => _context.Entry(p.Product).State = EntityState.Unchanged);
             _context.Sales.Add(sale);
+
             await _context.SaveChangesAsync();
+
             return sale;
         }
-
-
-
         catch (Exception ex)
         {
             throw;
         }
     }
 
+
     public async Task<Sales> GetSale(Guid id)
     {
         return await _context.Sales
             .Include(p => p.Items)
             .ThenInclude(p=>p.Product)
+            .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 

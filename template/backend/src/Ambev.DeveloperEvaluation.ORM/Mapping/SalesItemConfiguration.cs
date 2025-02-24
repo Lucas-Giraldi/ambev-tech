@@ -19,7 +19,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
 
             builder.HasOne(i => i.Sale) 
                .WithMany(s => s.Items) 
-               .HasForeignKey(i => i.Id) 
+               .HasForeignKey(i => i.SaleId) 
                .IsRequired(); 
         }
     }
