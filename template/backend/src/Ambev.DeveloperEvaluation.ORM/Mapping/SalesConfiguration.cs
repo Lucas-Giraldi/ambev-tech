@@ -21,6 +21,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
               .WithOne(i => i.Sale)
               .HasForeignKey(i => i.Id)
               .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(x => x.SaleNumber)
+                .ValueGeneratedOnAdd() 
+                .HasIdentityOptions(startValue: 10000) 
+                .IsRequired();
         }
     }
 }

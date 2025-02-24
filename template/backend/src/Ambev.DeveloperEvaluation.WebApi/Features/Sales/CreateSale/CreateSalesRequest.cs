@@ -2,8 +2,7 @@
 
 public class CreateSalesRequest
 {
-    public int CartId { get; set; }
-    public string CostumerName { get; set; }
-
+    public string CartId { get; set; }
+    public string CustomerName { get; set; }
     public string Branch { get; set; }
 }

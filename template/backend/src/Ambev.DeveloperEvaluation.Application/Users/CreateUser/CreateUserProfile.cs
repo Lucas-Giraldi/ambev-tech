@@ -36,9 +36,15 @@ public class CreateUserProfile : Profile
             }));
 
         CreateMap<AddressUserDto, UserAddress>()
-         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
-         .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.GeoLocation != null ? src.GeoLocation.Lat : null))
-         .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.GeoLocation != null ? src.GeoLocation.Long : null));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.GeoLocation != null ? src.GeoLocation.Lat : null))
+            .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.GeoLocation != null ? src.GeoLocation.Long : null))
+            .ReverseMap();
+
+        CreateMap<LocationUsersDto, UserAddress>()
+            .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.Lat))
+            .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.Long))
+            .ReverseMap();
 
     }
 }

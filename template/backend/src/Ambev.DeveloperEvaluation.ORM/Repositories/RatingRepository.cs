@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         private readonly DefaultContext _context;
 
         /// <summary>
-        /// Initializes a new instance of UserRepository
+        /// Initializes a new instance of RatingRepository
         /// </summary>
         /// <param name="context">The database context</param>
         public RatingRepository(DefaultContext context)

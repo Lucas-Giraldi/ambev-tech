@@ -53,5 +53,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<List<string>> GetProductCategories();
 
         Task<List<Product>> GetProductByCategory(string category);
+
+        Task<List<Product>> GetValuesByIds(List<int> ids);
     }
 }

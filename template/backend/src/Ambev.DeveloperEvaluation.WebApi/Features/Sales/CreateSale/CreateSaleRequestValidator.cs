@@ -14,12 +14,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale
         {
             RuleFor(x => x.CartId)
                 .NotEmpty().WithMessage("CartId is required.")
-                .GreaterThan(0).WithMessage("CartId must be greater than 0.");
+                .NotEmpty().WithMessage("CartId must be greater than 0.");
 
-            RuleFor(x => x.CostumerName)
+            RuleFor(x => x.CustomerName)
                 .NotEmpty().WithMessage("Customer name is required."); 
 
-            RuleFor(x => x.Branch);
+            RuleFor(x => x.Branch).NotEmpty().WithMessage("Branch is required.");
         }
     }
 }
